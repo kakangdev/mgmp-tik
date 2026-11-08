@@ -923,6 +923,20 @@ const E = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;'
 const $ = id => document.getElementById(id);
 const S = { config:{mgmpName:'MGMP Mata Pelajaran Informatika'}, admins:[], users:[], discussions:[], comments:[], materials:[], agendas:[], rsvps:[], ws:null };
 let F = {}, db, au, registeredUsers = [], discussionsData = [], materialsData = [], agendaData = [], currentCollaborators = [], reminders = new Set(), wsStamp = null, deferredPwa = null;
+
+// DATA DUMMY KHUSUS MODE TAMU (tidak pernah memuat data asli)
+const GS = {
+  config: S.config,
+  admins: [{id:'g-a1', email:'ketua.contoh@mgmp.id', nama:'Pengurus Contoh', role:'Pengurus Ketua MGMP (Moderator)', sekolah:'SMPN Contoh 1', idType:'NUPTK', idNumber:'1234567890123456'}],
+  users: [{id:'g-u1', username:'guru.contoh', nama:'Guru Contoh, S.Pd', idType:'NUPTK', idNumber:'6543210987654321', sekolah:'SMPN Contoh 2', role:'Guru Anggota', status:'approved', sertifikat:1, createdAt:0}],
+  discussions: [{id:'g-d1', authorId:'g-u1', authorName:'Guru Contoh, S.Pd', kategori:'Diskusi Umum', judul:'Contoh diskusi: berbagi pengalaman mengajar Informatika', konten:'Ini data contoh untuk mode tamu. Masuk sebagai anggota untuk melihat diskusi komunitas yang sebenarnya.', likedBy:[], likesCount:3, createdAt:Date.now()-72e5}],
+  comments: [{id:'g-c1', parentId:'g-d1', authorName:'Pengurus Contoh', text:'Contoh komentar balasan.', createdAt:Date.now()-36e5}],
+  materials: [{id:'g-m1', uploaderId:'g-u1', uploaderName:'Guru Contoh, S.Pd', status:'approved', judul:'Contoh Modul Ajar Algoritma Dasar', kategori:'Modul Ajar', kelas:'Kelas VII / 7', link:'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview', deskripsi:'Dokumen contoh untuk pratinjau mode tamu.', downloads:12, createdAt:Date.now()}, {id:'g-m2', uploaderId:'g-u1', uploaderName:'Guru Contoh, S.Pd', status:'approved', judul:'Contoh LKPD Jaringan Komputer', kategori:'LKPD', kelas:'Kelas VIII / 8', link:'https://docs.google.com/document/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/preview', deskripsi:'Lembar kerja contoh untuk mode tamu.', downloads:5, createdAt:Date.now()-1}],
+  agendas: [{id:'g-g1', judul:'Contoh Agenda: Rapat Koordinasi MGMP', tanggal:'Tanggal contoh - 09.00 WIB', lokasi:'Lokasi contoh', deskripsi:'Agenda contoh untuk mode tamu.', createdBy:'Pengurus Contoh', createdAt:Date.now()}],
+  rsvps: [],
+  ws: {judul:'Contoh Dokumen Kolaborasi', kategori:'Modul Ajar', mode:'canvas', konten:'Ini dokumen contoh untuk mode tamu.', gdocsUrl:'', ownerId:'g-a1', collaborators:[{userId:'g-a1', nama:'Pengurus Contoh', role:'Pemilik (Owner)'}], updatedAt:1}
+};
+const src = () => currentUser?.kind === 'guest' ? GS : S;
 const sha = async t => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)))].map(b => b.toString(16).padStart(2,'0')).join('');
 const ago = t => { const m = Math.round((Date.now()-t)/6e4); return m<1?'Baru saja':m<60?m+' menit yang lalu':m<1440?Math.round(m/60)+' jam yang lalu':Math.round(m/1440)+' hari yang lalu'; };
 const safe = f => async (...a) => { try { await f(...a); } catch (x) { showToast(x.code && x.code.startsWith('auth/') ? 'Email atau kata sandi salah!' : 'Gagal: ' + (x.code || x.message)); } };
@@ -947,25 +961,28 @@ async function findUser(u) {
 }
 
 function rebuild() {
+  const D = src(); GS.config = S.config;
   const uid = currentUser?.id, srt = (a,k='createdAt') => a.slice().sort((x,y) => y[k]-x[k]);
-  currentMgmpName = S.config.mgmpName;
-  registeredUsers = [...S.admins.map(a => ({id:a.id, username:a.email, nama:a.nama, idType:a.idType||'NUPTK', idNumber:a.idNumber||'-', sekolah:a.sekolah||'-', role:a.role, status:'approved', col:'admins'})), ...S.users.map(u => ({...u, col:'users'}))];
-  discussionsData = srt(S.discussions).map(d => ({id:d.id, author:d.authorName, isVerified:true, kategori:d.kategori, judul:d.judul, konten:d.konten, likes:d.likesCount||0, likedByMe:(d.likedBy||[]).includes(uid), comments:S.comments.filter(c => c.parentId===d.id).sort((a,b) => a.createdAt-b.createdAt).map(c => ({author:c.authorName, text:c.text})), created_at:ago(d.createdAt)}));
-  materialsData = srt(S.materials).map(m => ({...m, uploader:m.uploaderName, isVerified:true}));
-  agendaData = srt(S.agendas).map(a => { const r = S.rsvps.filter(x => x.parentId===a.id); return {...a, luringCount:r.filter(x => x.tipe==='luring').length, daringCount:r.filter(x => x.tipe==='daring').length, userRsvp:r.find(x => x.id===uid)?.tipe||null, reminderSet:reminders.has(a.id)}; });
-  currentCollaborators = (S.ws?.collaborators||[]).map(c => ({nama:c.nama, role:c.role}));
+  currentMgmpName = D.config.mgmpName;
+  registeredUsers = [...D.admins.map(a => ({id:a.id, username:a.email, nama:a.nama, idType:a.idType||'NUPTK', idNumber:a.idNumber||'-', sekolah:a.sekolah||'-', role:a.role, status:'approved', col:'admins'})), ...D.users.map(u => ({...u, col:'users'}))];
+  discussionsData = srt(D.discussions).map(d => ({id:d.id, author:d.authorName, isVerified:true, kategori:d.kategori, judul:d.judul, konten:d.konten, likes:d.likesCount||0, likedByMe:(d.likedBy||[]).includes(uid), comments:D.comments.filter(c => c.parentId===d.id).sort((a,b) => a.createdAt-b.createdAt).map(c => ({author:c.authorName, text:c.text})), created_at:ago(d.createdAt)}));
+  materialsData = srt(D.materials).map(m => ({...m, uploader:m.uploaderName, isVerified:true}));
+  agendaData = srt(D.agendas).map(a => { const r = D.rsvps.filter(x => x.parentId===a.id); return {...a, luringCount:r.filter(x => x.tipe==='luring').length, daringCount:r.filter(x => x.tipe==='daring').length, userRsvp:r.find(x => x.id===uid)?.tipe||null, reminderSet:reminders.has(a.id)}; });
+  currentCollaborators = (D.ws?.collaborators||[]).map(c => ({nama:c.nama, role:c.role}));
   $('landingMgmpTitle').innerText = $('appNameTitle').innerText = currentMgmpName;
   if (document.activeElement?.id !== 'inputMgmpName') $('inputMgmpName').value = currentMgmpName;
   if (currentUser) renderAll();
 }
 function renderAll() {
+  const D = src(); GS.config = S.config;
   renderDiscussions(); renderMaterials(); renderModeration(); renderAgenda(); renderUserAdminTable(); renderCollaborators(); loadWs();
-  const ap = materialsData.filter(m => m.status === 'approved'), mine = ap.filter(m => m.uploaderId === currentUser.id), me = S.users.find(u => u.id === currentUser.id);
+  const ap = materialsData.filter(m => m.status === 'approved'), mine = ap.filter(m => m.uploaderId === currentUser.id), me = D.users.find(u => u.id === currentUser.id);
   $('statModul').innerText = ap.length; $('statDiskusi').innerText = discussionsData.length;
   $('countKontribusi').innerText = mine.length + ' Berkas'; $('countUnduhanSaya').innerText = mine.reduce((s,m) => s+(m.downloads||0), 0) + ' Kali'; $('countSertifikat').innerText = (me?.sertifikat||0) + ' Sertifikat';
 }
 function loadWs() {
-  const w = S.ws, ed = canEditWs(), busy = ['workspaceTitle','workspaceContent','gdocsShareUrl'].includes(document.activeElement?.id);
+  const D = src(); GS.config = S.config;
+  const w = D.ws, ed = canEditWs(), busy = ['workspaceTitle','workspaceContent','gdocsShareUrl'].includes(document.activeElement?.id);
   ['workspaceTitle','workspaceCategory','workspaceEditorMode','workspaceContent','gdocsShareUrl'].forEach(i => $(i).disabled = !ed);
   if (!w || busy || wsStamp === w.updatedAt) return;
   wsStamp = w.updatedAt; $('workspaceTitle').value = w.judul; $('workspaceCategory').value = w.kategori; $('workspaceEditorMode').value = w.mode; $('workspaceContent').value = w.konten; $('gdocsShareUrl').value = w.gdocsUrl || '';
@@ -1055,6 +1072,7 @@ function setupPWA() {
         status: 'approved'
       };
       closeAuthModal();
+      rebuild();
       showAppMain();
       showToast('Masuk dalam Mode Guest (Akses Terbatas).');
     }
@@ -1553,7 +1571,7 @@ window.handleUploadMaterial = safe(async e => {
   closeUploadModal(); showToast('Perangkat Ajar berhasil dikirim ke antrean kurasi!');
 });
 const countDl = async id => { if (currentUser?.kind === 'guest') return; const m = S.materials.find(x => x.id === id); if (m) await upd('materials', id, {downloads:(m.downloads||0) + 1}); };
-window.handleDownloadClick = safe(async id => { await countDl(id); showToast('Memulai pengunduhan berkas...'); window.open(S.materials.find(x => x.id === id).link, '_blank', 'noopener'); });
+window.handleDownloadClick = safe(async id => { await countDl(id); showToast('Memulai pengunduhan berkas...'); window.open(src().materials.find(x => x.id === id).link, '_blank', 'noopener'); });
 window.incrementDownloadFromPreview = safe(async () => { if (activePreviewMaterialId) await countDl(activePreviewMaterialId); });
 window.approveMaterial = safe(async id => { await upd('materials', id, {status:'approved'}); showToast('Modul divalidasi!'); });
 window.saveMgmpName = safe(async () => {
@@ -1580,7 +1598,7 @@ window.toggleRsvp = safe(async (id, type) => {
   await add('rsvps', {parentId:id, nama:currentUser.nama, tipe:type}, currentUser.id); showToast(`Konfirmasi kehadiran (${type === 'luring' ? 'Hadir Luring' : 'Hadir Daring'}) tersimpan!`);
 });
 window.toggleReminder = safe(async id => {
-  const a = S.agendas.find(x => x.id === id);
+  const a = src().agendas.find(x => x.id === id);
   if (reminders.has(id)) { reminders.delete(id); rebuild(); return showToast('Notifikasi pengingat dinonaktifkan.'); }
   reminders.add(id); rebuild();
   if ('Notification' in window && await Notification.requestPermission() === 'granted') new Notification('Pengingat aktif', {body:a.judul + ' - ' + a.tanggal});
