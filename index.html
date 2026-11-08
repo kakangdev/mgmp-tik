@@ -250,9 +250,13 @@
             </p>
             <p id="headerUserRole" class="text-[10px] text-teal-600 font-semibold uppercase">Guru Anggota</p>
           </div>
-          <button onclick="switchTab('profil')" class="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-teal-600 font-bold text-sm">
+          <div class="relative"><button onclick="toggleProfileMenu(event)" class="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-teal-600 font-bold text-sm">
             <i data-lucide="user" class="w-5 h-5"></i>
           </button>
+          <div id="profileMenu" onclick="event.stopPropagation()" class="hidden absolute right-0 top-11 w-48 bg-white border border-slate-200 rounded-2xl shadow-xl p-1.5 space-y-0.5 z-50">
+            <button id="pmEdit" onclick="openProfileEdit()" class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-700 hover:bg-teal-50 hover:text-teal-700"><i data-lucide="user-cog" class="w-4 h-4"></i> Ubah Profil</button>
+            <button onclick="handleLogout()" class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-50"><i data-lucide="log-out" class="w-4 h-4"></i> Keluar</button>
+          </div></div>
         </div>
       </div>
     </div>
@@ -639,6 +643,34 @@
     </button>
   </nav>
 
+  <!-- MODAL UBAH PROFIL -->
+  <div id="profileModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between"><h3 class="font-bold text-slate-800 text-sm flex items-center gap-2"><i data-lucide="user-cog" class="w-4 h-4 text-teal-600"></i> Ubah Profil</h3><button onclick="closeProfileEdit()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button></div>
+      <form onsubmit="saveProfile(event)" class="space-y-3">
+        <div><label class="block text-xs font-semibold text-slate-700 mb-1">Nama Lengkap & Gelar</label><input type="text" id="pfNama" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="" autocomplete="off"></div>
+        <div class="pt-3 border-t border-slate-100 space-y-3">
+          <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi Saat Ini</label><input type="password" id="pfOld" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="Wajib diisi jika mengganti kata sandi" autocomplete="off"></div>
+          <div><label class="block text-xs font-semibold text-slate-700 mb-1">Kata Sandi Baru</label><input type="password" id="pfNew" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="Minimal 6 karakter" autocomplete="off"></div>
+          <div><label class="block text-xs font-semibold text-slate-700 mb-1">Ulangi Kata Sandi Baru</label><input type="password" id="pfNew2" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="" autocomplete="off"></div>
+        </div>
+        <p class="text-[10px] text-slate-400">Kosongkan kolom kata sandi jika hanya ingin mengubah nama.</p>
+        <div class="flex justify-end gap-2 pt-1"><button type="button" onclick="closeProfileEdit()" class="px-4 py-2 bg-slate-100 text-slate-600 font-semibold rounded-xl text-xs hover:bg-slate-200">Batal</button><button type="submit" class="px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs hover:bg-teal-700 shadow-md">Simpan Perubahan</button></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL HASIL RESET SANDI -->
+  <div id="resetModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4 text-center">
+      <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto"><i data-lucide="key-round" class="w-6 h-6"></i></div>
+      <h3 class="font-bold text-slate-900">Kata Sandi Sementara</h3>
+      <p class="text-xs text-slate-500">Berikan kepada <b id="resetUser"></b>. Kata sandi ini hanya tampil sekali, dan pengguna diminta menggantinya saat masuk.</p>
+      <p id="resetPass" class="font-mono text-xl font-extrabold tracking-widest bg-slate-50 border border-slate-200 rounded-xl py-3 select-all"></p>
+      <div class="flex gap-2"><button onclick="navigator.clipboard?.writeText(document.getElementById('resetPass').innerText);showToast('Disalin.')" class="flex-1 px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl text-xs">Salin</button><button onclick="document.getElementById('resetModal').classList.add('hidden');document.getElementById('resetPass').innerText=''" class="flex-1 px-4 py-2 bg-teal-600 text-white font-bold rounded-xl text-xs">Selesai</button></div>
+    </div>
+  </div>
+
   <!-- MODAL AUTENTIKASI (LOGIN / REGISTRASI) -->
   <div id="authModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative space-y-4">
@@ -887,7 +919,7 @@
   <!-- LOGIC SCRIPT INTEGRATED -->
   <script type="module">
 // KONFIGURASI APLIKASI
-const IS_PREVIEW = false; // Ubah menjadi false SAAT DEPLOY / PUBLISH agar terhubung murni ke Firebase tanpa data dummy
+const IS_PREVIEW = true; // Ubah menjadi false SAAT DEPLOY / PUBLISH agar terhubung murni ke Firebase tanpa data dummy
 
 // PASTE FIREBASE CONFIG ANDA DI SINI
 const firebaseConfig = {
@@ -897,7 +929,6 @@ const firebaseConfig = {
   storageBucket: "mgmp-informatika.firebasestorage.app",
   messagingSenderId: "563161501824",
   appId: "1:563161501824:web:0bc4d4b23ce04642041665"
-
 };
 
 const E = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1035,7 +1066,7 @@ async function boot() {
   }
   rebuild(); renderCollaborators();
 }
-function startSession(u) { currentUser = u; closeAuthModal(); rebuild(); showAppMain(); showToast('Selamat datang, ' + u.nama); }
+function startSession(u) { currentUser = u; closeAuthModal(); rebuild(); showAppMain(); showToast('Selamat datang, ' + u.nama); if (u.mustChange) { openProfileEdit(); showToast('Anda masuk dengan kata sandi sementara. Segera ganti kata sandi.'); } }
 function setupPWA() {
   window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPwa = e; $('installPwaBtn')?.classList.remove('hidden'); });
   try { const b = new Blob(["self.addEventListener('fetch',()=>{});"], {type:'text/javascript'}); navigator.serviceWorker?.register(URL.createObjectURL(b)).catch(() => {}); } catch (e) {}
@@ -1445,7 +1476,7 @@ function setupPWA() {
             ${u.status === 'pending' ? `
               <button onclick="approveUser('${u.id}')" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded text-[10px] hover:bg-emerald-700 mr-1">Approve</button>
               <button onclick="rejectUser('${u.id}')" class="px-2.5 py-1 bg-rose-100 text-rose-700 font-bold rounded text-[10px] hover:bg-rose-200">Tolak</button>
-            ` : `<span class="text-[10px] text-slate-400">Aktif</span>`}
+            ` : `<button onclick="resetPassword('${u.id}')" class="px-2.5 py-1 bg-amber-100 text-amber-800 font-bold rounded text-[10px] hover:bg-amber-200">Reset Sandi</button>`}
           </td>
         `;
         tbody.appendChild(tr);
@@ -1653,6 +1684,44 @@ window.landNav = (e, id) => {
   e.preventDefault(); const t = $(id); if (id === 'beranda') window.scrollTo({top:0, behavior:'smooth'}); else t?.scrollIntoView({behavior:'smooth', block:'start'});
   document.querySelectorAll('#landingWrapper a[data-ln]').forEach(a => { const on = a.dataset.ln === id; a.classList.toggle('bg-teal-50', on); a.classList.toggle('text-teal-700', on); a.classList.toggle('font-bold', on); });
 };
+const newSalt = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
+window.toggleProfileMenu = e => { e.stopPropagation(); $('pmEdit').classList.toggle('hidden', currentUser?.kind === 'guest'); $('profileMenu').classList.toggle('hidden'); };
+document.addEventListener('click', () => $('profileMenu')?.classList.add('hidden'));
+window.openProfileEdit = () => { $('profileMenu').classList.add('hidden'); if (!need()) return; $('pfNama').value = currentUser.nama; ['pfOld','pfNew','pfNew2'].forEach(i => $(i).value = ''); $('profileModal').classList.remove('hidden'); lucide.createIcons(); };
+window.closeProfileEdit = () => $('profileModal').classList.add('hidden');
+window.saveProfile = safe(async e => {
+  e.preventDefault(); const nama = $('pfNama').value.trim(), old = $('pfOld').value, n1 = $('pfNew').value, n2 = $('pfNew2').value, pw = !!n1;
+  if (!nama) return showToast('Nama tidak boleh kosong.');
+  if (pw && n1.length < 6) return showToast('Kata sandi baru minimal 6 karakter.');
+  if (pw && n1 !== n2) return showToast('Konfirmasi kata sandi baru tidak cocok.');
+  if (isAdm()) {
+    if (pw) {
+      if (IS_PREVIEW) { const a = S.admins.find(x => x.id === currentUser.id); if (a.pw !== old) return showToast('Kata sandi saat ini salah!'); a.pw = n1; }
+      else { await F.reauthenticateWithCredential(au.currentUser, F.EmailAuthProvider.credential(au.currentUser.email, old)); await F.updatePassword(au.currentUser, n1); }
+    }
+    if (nama !== currentUser.nama) await upd('admins', currentUser.id, {nama});
+  } else {
+    const u = S.users.find(x => x.id === currentUser.id), d = {};
+    if (!u) return showToast('Data akun tidak ditemukan.');
+    if (nama !== u.nama) d.nama = nama;
+    if (pw) { if (await sha(u.salt + old) !== u.passwordHash) return showToast('Kata sandi saat ini salah!'); const s = newSalt(); Object.assign(d, {salt:s, passwordHash:await sha(s + n1), mustChange:false}); }
+    if (Object.keys(d).length) await upd('users', currentUser.id, d);
+  }
+  currentUser.nama = nama; $('headerUserName').innerText = nama; $('profileNama').innerText = nama; closeProfileEdit(); showToast('Profil berhasil diperbarui!');
+});
+window.resetPassword = safe(async id => {
+  if (currentUser?.role !== 'Super Admin') return showToast('Hanya Super Admin yang dapat mereset kata sandi.');
+  const t = registeredUsers.find(u => u.id === id); if (!t) return;
+  if (t.col === 'admins') {
+    if (!confirm(`Kirim email reset kata sandi ke ${t.username}?`)) return;
+    if (IS_PREVIEW) return showToast('Mode preview: email reset tidak dikirim.');
+    await F.sendPasswordResetEmail(au, t.username); return showToast('Email reset kata sandi terkirim ke ' + t.username);
+  }
+  if (!confirm(`Reset kata sandi ${t.nama}? Kata sandi sementara akan dibuat.`)) return;
+  const al = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789', r = crypto.getRandomValues(new Uint32Array(8)), tmp = [...r].map(x => al[x % al.length]).join(''), s = newSalt();
+  await upd('users', id, {salt:s, passwordHash:await sha(s + tmp), mustChange:true});
+  $('resetUser').innerText = t.nama; $('resetPass').innerText = tmp; $('resetModal').classList.remove('hidden'); lucide.createIcons();
+});
 boot();
 
   </script>
