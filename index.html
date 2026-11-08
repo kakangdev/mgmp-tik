@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" style="scroll-behavior:smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,16 +61,16 @@
         </div>
         <div>
           <h1 id="landingMgmpTitle" class="font-bold text-slate-900 text-base leading-tight">MGMP Mata Pelajaran Informatika</h1>
-          <p class="text-xs text-slate-500 font-medium">Platform Pendidikan MGMP Informatika</p>
+          <p id="lpSub" class="text-xs text-slate-500 font-medium">Platform Pendidikan MGMP Informatika</p>
         </div>
       </div>
 
       <!-- CENTER NAV LINKS (DESKTOP) -->
       <nav class="hidden md:flex items-center gap-1 bg-white/80 backdrop-blur border border-slate-200/80 px-3 py-1.5 rounded-full shadow-sm text-xs font-semibold text-slate-600">
-        <a href="#beranda" class="px-3 py-1.5 rounded-full bg-teal-50 text-teal-700 flex items-center gap-1.5 font-bold"><i data-lucide="home" class="w-3.5 h-3.5"></i> Beranda</a>
-        <a href="#fitur" onclick="showToast('Fitur Komunitas MGMP')" class="px-3 py-1.5 rounded-full hover:text-teal-600 flex items-center gap-1.5"><i data-lucide="grid" class="w-3.5 h-3.5"></i> Fitur</a>
-        <a href="#tentang" onclick="showToast('Platform Kolaborasi Guru')" class="px-3 py-1.5 rounded-full hover:text-teal-600 flex items-center gap-1.5"><i data-lucide="info" class="w-3.5 h-3.5"></i> Tentang</a>
-        <a href="#bantuan" onclick="showToast('Pusat Bantuan MGMP')" class="px-3 py-1.5 rounded-full hover:text-teal-600 flex items-center gap-1.5"><i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Bantuan</a>
+        <a href="#beranda" data-ln="beranda" onclick="landNav(event,'beranda')" class="px-3 py-1.5 rounded-full bg-teal-50 text-teal-700 flex items-center gap-1.5 font-bold"><i data-lucide="home" class="w-3.5 h-3.5"></i> Beranda</a>
+        <a href="#fitur" data-ln="fitur" onclick="landNav(event,'fitur')" class="px-3 py-1.5 rounded-full hover:text-teal-600 flex items-center gap-1.5"><i data-lucide="grid" class="w-3.5 h-3.5"></i> Fitur</a>
+        <a href="#tentang" data-ln="tentang" onclick="landNav(event,'tentang')" class="px-3 py-1.5 rounded-full hover:text-teal-600 flex items-center gap-1.5"><i data-lucide="info" class="w-3.5 h-3.5"></i> Tentang</a>
+        <a href="#bantuan" data-ln="bantuan" onclick="landNav(event,'bantuan')" class="px-3 py-1.5 rounded-full hover:text-teal-600 flex items-center gap-1.5"><i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Bantuan</a>
       </nav>
 
       <!-- AUTH BUTTONS HEADER -->
@@ -84,21 +84,23 @@
       </div>
     </header>
 
+    <nav class="md:hidden flex gap-2 overflow-x-auto px-4 pb-2 text-xs font-semibold text-slate-600"><a href="#beranda" data-ln="beranda" onclick="landNav(event,'beranda')" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 shrink-0">Beranda</a><a href="#fitur" data-ln="fitur" onclick="landNav(event,'fitur')" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 shrink-0">Fitur</a><a href="#tentang" data-ln="tentang" onclick="landNav(event,'tentang')" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 shrink-0">Tentang</a><a href="#bantuan" data-ln="bantuan" onclick="landNav(event,'bantuan')" class="px-3 py-1.5 rounded-full bg-white border border-slate-200 shrink-0">Bantuan</a></nav>
+
     <!-- HERO SECTION -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-8 py-8 md:py-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
+    <section id="beranda" class="scroll-mt-4 max-w-7xl mx-auto px-4 sm:px-8 py-8 md:py-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
       
       <!-- HERO LEFT CONTENT -->
       <div class="md:col-span-6 space-y-6">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold rounded-full">
-          <i data-lucide="graduation-cap" class="w-4 h-4 text-teal-600"></i> Kolaborasi • Berbagi • Berkarya
+          <i data-lucide="graduation-cap" class="w-4 h-4 text-teal-600"></i> <span id="lpTagline">Kolaborasi • Berbagi • Berkarya</span>
         </div>
 
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 leading-[1.15] tracking-tight">
-          MGMP Informatika <br class="hidden sm:inline">
-          <span class="text-teal-600">MTs Negeri se-Indonesia</span>
+          <span id="lpJ1">MGMP Informatika</span> <br class="hidden sm:inline">
+          <span id="lpJ2" class="text-teal-600">MTs Negeri se-Indonesia</span>
         </h1>
 
-        <p class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl">
+        <p id="lpDesc" class="text-sm sm:text-base text-slate-600 leading-relaxed font-normal max-w-xl">
           Platform kolaborasi untuk guru Informatika dalam berbagi pengetahuan, materi pembelajaran, dan pengembangan kompetensi secara digital.
         </p>
 
@@ -128,7 +130,7 @@
                 <i data-lucide="users" class="w-4 h-4"></i>
               </div>
               <div>
-                <p class="text-xs font-bold text-slate-800">MGMP Mata Pelajaran Informatika</p>
+                <p id="lpMock" class="text-xs font-bold text-slate-800">MGMP Mata Pelajaran Informatika</p>
                 <p class="text-[9px] text-slate-400">Platform Pendidikan Terverifikasi NUPTK / PegID</p>
               </div>
             </div>
@@ -178,53 +180,26 @@
 
     <!-- 4 FEATURE CARDS CONTAINER -->
     <section class="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full">
-      <div class="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
-        
-        <!-- CARD 1 -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 pl-0 sm:pl-2">
-          <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0">
-            <i data-lucide="users" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-slate-900 text-sm">Komunitas Profesional</h4>
-            <p class="text-xs text-slate-500 mt-0.5">Bergabung dengan komunitas guru Informatika se-Indonesia</p>
-          </div>
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 sm:pl-6">
-          <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
-            <i data-lucide="book-open" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-slate-900 text-sm">Berbagi Materi</h4>
-            <p class="text-xs text-slate-500 mt-0.5">Akses dan bagikan materi pembelajaran berkualitas</p>
-          </div>
-        </div>
-
-        <!-- CARD 3 -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 lg:pl-6">
-          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
-            <i data-lucide="message-square" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-slate-900 text-sm">Diskusi Aktif</h4>
-            <p class="text-xs text-slate-500 mt-0.5">Tukar pikiran dan dapatkan solusi bersama</p>
-          </div>
-        </div>
-
-        <!-- CARD 4 -->
-        <div class="flex items-center gap-4 pt-4 sm:pt-0 lg:pl-6">
-          <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center shrink-0">
-            <i data-lucide="trending-up" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <h4 class="font-bold text-slate-900 text-sm">Pengembangan Diri</h4>
-            <p class="text-xs text-slate-500 mt-0.5">Tingkatkan kompetensi dengan berbagai sumber belajar</p>
-          </div>
-        </div>
-
+      <div class="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/80 shadow-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 divide-y sm:divide-y-0 sm:divide-x divide-slate-100" id="lpKeunggulan">
       </div>
+    </section>
+
+<!-- SECTION FITUR -->
+    <section id="fitur" class="max-w-7xl mx-auto px-4 sm:px-8 py-10 w-full scroll-mt-4">
+      <div class="text-center max-w-2xl mx-auto space-y-2 mb-8"><span class="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold rounded-full"><i data-lucide="grid" class="w-3.5 h-3.5"></i> Fitur</span><h2 id="lpFiturJudul" class="text-2xl sm:text-3xl font-extrabold text-slate-900"></h2><p id="lpFiturIntro" class="text-sm text-slate-600"></p></div>
+      <div id="lpFitur" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <!-- SECTION TENTANG -->
+    <section id="tentang" class="max-w-7xl mx-auto px-4 sm:px-8 py-10 w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-start scroll-mt-4">
+      <div class="md:col-span-5 space-y-3"><span class="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold rounded-full"><i data-lucide="info" class="w-3.5 h-3.5"></i> Tentang</span><h2 id="lpTentangJudul" class="text-2xl sm:text-3xl font-extrabold text-slate-900"></h2><p id="lpTentangIsi" class="text-sm text-slate-600 leading-relaxed"></p></div>
+      <div id="lpTentangPoin" class="md:col-span-7 space-y-3"></div>
+    </section>
+
+    <!-- SECTION BANTUAN -->
+    <section id="bantuan" class="max-w-7xl mx-auto px-4 sm:px-8 py-10 w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-start scroll-mt-4">
+      <div class="md:col-span-8 space-y-3"><span class="inline-flex items-center gap-1.5 px-3 py-1 bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold rounded-full"><i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Bantuan</span><h2 id="lpBantuanJudul" class="text-2xl sm:text-3xl font-extrabold text-slate-900"></h2><div id="lpFaq" class="space-y-3"></div></div>
+      <div id="lpKontak" class="md:col-span-4 bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3"></div>
     </section>
 
     <!-- BOTTOM TAGLINE BANNER LANDING -->
@@ -234,7 +209,7 @@
           <div class="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-yellow-300 shrink-0">
             <i data-lucide="target" class="w-6 h-6"></i>
           </div>
-          <p class="font-bold text-sm sm:text-base leading-snug">
+          <p id="lpBanner" class="font-bold text-sm sm:text-base leading-snug">
             Bersama MGMP Informatika, wujudkan pendidikan digital yang lebih baik untuk masa depan.
           </p>
         </div>
@@ -307,7 +282,7 @@
             <span id="badgeModerasiPending" class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded-full font-bold">1 Pending</span>
           </button>
           <button onclick="switchTab('superadmin')" id="side-nav-superadmin" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-50 transition hidden">
-            <span class="flex items-center gap-3"><i data-lucide="settings" class="w-5 h-5 text-purple-600"></i> Pengaturan Super Admin</span>
+            <span class="flex items-center gap-3"><i data-lucide="settings" class="w-5 h-5 text-purple-600"></i> Pengaturan</span>
             <span id="badgePendingUsers" class="bg-purple-100 text-purple-800 text-[10px] px-2 py-0.5 rounded-full font-bold">1 Req</span>
           </button>
           <button onclick="switchTab('analitik')" id="side-nav-analitik" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-50 transition hidden">
@@ -513,9 +488,9 @@
         <div id="tab-superadmin" class="tab-content space-y-6 hidden">
           <div class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white p-6 rounded-2xl shadow-md space-y-2">
             <h3 class="text-lg font-bold flex items-center gap-2">
-              <i data-lucide="settings" class="w-6 h-6 text-purple-300"></i> Panel Kontrol Super Admin
+              <i data-lucide="settings" class="w-6 h-6 text-purple-300"></i> Panel Pengaturan
             </h3>
-            <p class="text-xs text-purple-200">Kelola entitas nama MGMP, setujui pendaftaran guru baru, dan atur penugasan role anggota.</p>
+            <p class="text-xs text-purple-200">Kelola nama MGMP, tampilan halaman utama, persetujuan guru baru, dan penugasan role anggota.</p>
           </div>
 
           <!-- Pengaturan Nama MGMP -->
@@ -529,6 +504,12 @@
                 Simpan Penamaan MGMP
               </button>
             </div>
+          </div>
+
+          <!-- Pengaturan Tampilan Halaman Utama -->
+          <div id="lsForm" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+            <h4 class="font-bold text-xs text-slate-800 uppercase tracking-wider flex items-center gap-2"><i data-lucide="layout-template" class="w-4 h-4 text-purple-600"></i> Atur Tampilan Halaman Utama</h4>
+            <p class="text-[11px] text-slate-500">Isi di bawah langsung tampil di halaman utama sebelum login. Untuk daftar, tulis satu item per baris dan pisahkan kolom dengan tanda |</p><div class="space-y-3 pt-3 border-t border-slate-100"><p class="text-[11px] font-extrabold text-purple-700">Beranda (Hero)</p><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Teks lencana</label><input id="lsTagline" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul baris 1</label><input id="lsJudul1" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul baris 2 (berwarna teal)</label><input id="lsJudul2" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Deskripsi</label><textarea id="lsDesc" rows="2" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Sub-judul di header</label><input id="lsSub" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Teks banner bawah</label><textarea id="lsBanner" rows="2" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div></div><div class="space-y-3 pt-3 border-t border-slate-100"><p class="text-[11px] font-extrabold text-purple-700">Keunggulan (4 kartu)</p><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul | Deskripsi</label><textarea id="lsKeunggulan" rows="4" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div></div><div class="space-y-3 pt-3 border-t border-slate-100"><p class="text-[11px] font-extrabold text-purple-700">Fitur</p><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul bagian</label><input id="lsFiturJudul" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Pengantar</label><textarea id="lsFiturIntro" rows="2" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul | Deskripsi | nama ikon Lucide (mis. calendar)</label><textarea id="lsFitur" rows="6" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div></div><div class="space-y-3 pt-3 border-t border-slate-100"><p class="text-[11px] font-extrabold text-purple-700">Tentang</p><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul bagian</label><input id="lsTentangJudul" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Isi</label><textarea id="lsTentangIsi" rows="3" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul | Isi</label><textarea id="lsTentangPoin" rows="4" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div></div><div class="space-y-3 pt-3 border-t border-slate-100"><p class="text-[11px] font-extrabold text-purple-700">Bantuan</p><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Judul bagian</label><input id="lsBantuanJudul" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Pertanyaan | Jawaban</label><textarea id="lsFaq" rows="6" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Email bantuan</label><input id="lsEmail" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Nomor WhatsApp (mis. 6281234567890)</label><input id="lsWa" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div><div><label class="block text-[11px] font-semibold text-slate-700 mb-1">Jam layanan</label><input id="lsJam" class="w-full px-3 py-2 text-xs rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"></div></div><div class="flex flex-wrap gap-2 pt-2"><button onclick="saveLanding()" class="px-4 py-2 bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold rounded-xl shadow">Simpan Tampilan</button><button onclick="resetLanding()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl">Pulihkan Bawaan</button></div>
           </div>
 
           <!-- Tab Kelola Anggota & Persetujuan -->
@@ -971,6 +952,7 @@ function rebuild() {
   currentCollaborators = (D.ws?.collaborators||[]).map(c => ({nama:c.nama, role:c.role}));
   $('landingMgmpTitle').innerText = $('appNameTitle').innerText = currentMgmpName;
   if (document.activeElement?.id !== 'inputMgmpName') $('inputMgmpName').value = currentMgmpName;
+  renderLanding();
   if (currentUser) renderAll();
 }
 function renderAll() {
@@ -988,6 +970,42 @@ function loadWs() {
   wsStamp = w.updatedAt; $('workspaceTitle').value = w.judul; $('workspaceCategory').value = w.kategori; $('workspaceEditorMode').value = w.mode; $('workspaceContent').value = w.konten; $('gdocsShareUrl').value = w.gdocsUrl || '';
   switchWorkspaceMode(w.mode);
   if (/^https:\/\/docs\.google\.com\//.test(w.gdocsUrl||'')) $('gdocsIframeEmbed').src = w.gdocsUrl.replace(/\/edit.*$/, '/edit?embedded=true');
+}
+
+
+// ===== HALAMAN UTAMA DINAMIS (app_config/landing, diatur dari menu Pengaturan) =====
+const LP_DEF = {
+  tagline:'Kolaborasi • Berbagi • Berkarya', judul1:'MGMP Informatika', judul2:'MTs Negeri se-Indonesia',
+  deskripsi:'Platform kolaborasi untuk guru Informatika dalam berbagi pengetahuan, materi pembelajaran, dan pengembangan kompetensi secara digital.',
+  subjudul:'Platform Pendidikan MGMP Informatika',
+  banner:'Bersama MGMP Informatika, wujudkan pendidikan digital yang lebih baik untuk masa depan.',
+  keunggulan:'Komunitas Profesional | Bergabung dengan komunitas guru Informatika se-Indonesia\nBerbagi Materi | Akses dan bagikan materi pembelajaran berkualitas\nDiskusi Aktif | Tukar pikiran dan dapatkan solusi bersama\nPengembangan Diri | Tingkatkan kompetensi dengan berbagai sumber belajar',
+  fiturJudul:'Semua kebutuhan MGMP dalam satu ruang', fiturIntro:'Dari diskusi hingga administrasi kegiatan, semuanya tersedia untuk anggota yang sudah terverifikasi.',
+  fitur:'Forum Diskusi | Ajukan pertanyaan, bagikan pengalaman, beri suka dan komentar | message-square\nPerangkat Ajar | Katalog modul ajar, LKPD, bahan ajar, dan bank soal terkurasi | folder-git-2\nAgenda & RSVP | Jadwal kegiatan MGMP dengan konfirmasi kehadiran luring atau daring | calendar\nRuang Kolaborasi | Susun dokumen bersama rekan guru secara langsung | file-edit\nModerasi Kurasi | Setiap materi diperiksa pengurus sebelum dipublikasikan | shield-check\nPortofolio Digital | Rekam kontribusi, unduhan, dan sertifikat Anda | award',
+  tentangJudul:'Tentang Ruang MGMP', tentangIsi:'Ruang MGMP adalah hub digital bagi guru Informatika untuk berkomunitas, berbagi perangkat ajar, dan mengelola kegiatan musyawarah guru mata pelajaran.',
+  tentangPoin:'Anggota Terverifikasi | Pendaftaran memakai NUPTK (16 digit) atau PegID (14 digit) dan disetujui Super Admin\nMateri Terkurasi | Perangkat ajar dikurasi pengurus agar mutunya terjaga\nBisa Dipasang | Dapat dipasang sebagai aplikasi (PWA) di ponsel dan komputer',
+  bantuanJudul:'Pusat Bantuan',
+  faq:'Bagaimana cara mendaftar? | Pilih Daftar, isi NUPTK atau PegID, nama, sekolah, username, dan kata sandi. Akun aktif setelah disetujui Super Admin.\nSaya lupa kata sandi, bagaimana? | Hubungi Super Admin atau pengurus MGMP melalui kontak di bawah.\nApa bedanya masuk sebagai tamu? | Tamu hanya melihat contoh tampilan dan tidak bisa memposting, berkomentar, atau mengunggah.\nBagaimana cara mengunggah perangkat ajar? | Masuk sebagai anggota, buka Perangkat Ajar, lalu Unggah berkas. Materi tampil setelah disetujui pengurus.',
+  email:'', wa:'', jam:'Senin - Jumat, 08.00 - 16.00 WIB'
+};
+const LS = {lsTagline:'tagline', lsJudul1:'judul1', lsJudul2:'judul2', lsDesc:'deskripsi', lsSub:'subjudul', lsBanner:'banner', lsKeunggulan:'keunggulan', lsFiturJudul:'fiturJudul', lsFiturIntro:'fiturIntro', lsFitur:'fitur', lsTentangJudul:'tentangJudul', lsTentangIsi:'tentangIsi', lsTentangPoin:'tentangPoin', lsBantuanJudul:'bantuanJudul', lsFaq:'faq', lsEmail:'email', lsWa:'wa', lsJam:'jam'};
+function renderLanding() {
+  const L = {...LP_DEF, ...(S.landing || {})}, ln = s => String(s || '').split('\n').map(l => l.split('|').map(x => x.trim())).filter(r => r[0]);
+  const t = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  t('lpTagline', L.tagline); t('lpJ1', L.judul1); t('lpJ2', L.judul2); t('lpDesc', L.deskripsi); t('lpSub', L.subjudul); t('lpBanner', L.banner); t('lpMock', S.config.mgmpName);
+  t('lpFiturJudul', L.fiturJudul); t('lpFiturIntro', L.fiturIntro); t('lpTentangJudul', L.tentangJudul); t('lpTentangIsi', L.tentangIsi); t('lpBantuanJudul', L.bantuanJudul);
+  const pal = ['teal','indigo','amber','blue','rose','emerald'], pad = ['pt-4 sm:pt-0 pl-0 sm:pl-2','pt-4 sm:pt-0 sm:pl-6','pt-4 sm:pt-0 lg:pl-6','pt-4 sm:pt-0 lg:pl-6'], ik = ['users','book-open','message-square','trending-up'];
+  $('lpKeunggulan').innerHTML = ln(L.keunggulan).slice(0,4).map((r,i) => `<div class="flex items-center gap-4 ${pad[i]}"><div class="w-12 h-12 rounded-2xl bg-${pal[i]}-100 text-${pal[i]}-700 flex items-center justify-center shrink-0"><i data-lucide="${ik[i]}" class="w-6 h-6"></i></div><div><h4 class="font-bold text-slate-900 text-sm">${E(r[0])}</h4><p class="text-xs text-slate-500 mt-0.5">${E(r[1])}</p></div></div>`).join('');
+  $('lpFitur').innerHTML = ln(L.fitur).map((r,i) => { const c = pal[i % 6], ic = /^[a-z0-9-]+$/.test(r[2] || '') ? r[2] : 'star'; return `<div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3"><div class="w-11 h-11 rounded-2xl bg-${c}-100 text-${c}-700 flex items-center justify-center"><i data-lucide="${ic}" class="w-5 h-5"></i></div><h4 class="font-bold text-slate-900 text-sm">${E(r[0])}</h4><p class="text-xs text-slate-500 leading-relaxed">${E(r[1])}</p></div>`; }).join('');
+  $('lpTentangPoin').innerHTML = ln(L.tentangPoin).map(r => `<div class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex gap-3"><div class="w-8 h-8 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-4 h-4"></i></div><div><h4 class="font-bold text-slate-900 text-sm">${E(r[0])}</h4><p class="text-xs text-slate-500 mt-0.5 leading-relaxed">${E(r[1])}</p></div></div>`).join('');
+  $('lpFaq').innerHTML = ln(L.faq).map(r => `<details class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-4"><summary class="font-bold text-sm text-slate-900 cursor-pointer">${E(r[0])}</summary><p class="text-xs text-slate-600 mt-2 leading-relaxed">${E(r[1])}</p></details>`).join('');
+  const wa = String(L.wa || '').replace(/\D/g, ''), k = [];
+  if (L.email) k.push(`<a href="mailto:${E(L.email)}" class="flex items-center gap-2 text-xs font-semibold text-teal-700"><i data-lucide="mail" class="w-4 h-4"></i>${E(L.email)}</a>`);
+  if (wa) k.push(`<a href="https://wa.me/${wa}" target="_blank" rel="noopener" class="flex items-center gap-2 text-xs font-semibold text-teal-700"><i data-lucide="message-circle" class="w-4 h-4"></i>WhatsApp ${E(L.wa)}</a>`);
+  if (L.jam) k.push(`<p class="flex items-center gap-2 text-xs text-slate-500"><i data-lucide="clock" class="w-4 h-4"></i>${E(L.jam)}</p>`);
+  $('lpKontak').innerHTML = `<h4 class="font-bold text-sm text-slate-900">Butuh bantuan langsung?</h4>` + (k.join('') || '<p class="text-xs text-slate-400">Kontak belum diatur oleh admin.</p>');
+  const f = $('lsForm'); if (f && !f.contains(document.activeElement)) Object.entries(LS).forEach(([id, key]) => { $(id).value = L[key] || ''; });
+  lucide.createIcons();
 }
 
 async function seed() {
@@ -1011,6 +1029,7 @@ async function boot() {
     ['admins','users','discussions','materials','agendas'].forEach(k => F.onSnapshot(F.collection(db,k), s => { S[k] = s.docs.map(d => ({id:d.id, ...d.data()})); rebuild(); }, () => {}));
     ['comments','rsvps'].forEach(k => F.onSnapshot(F.collectionGroup(db,k), s => { S[k] = s.docs.map(d => ({id:d.id, parentId:d.ref.parent.parent.id, ...d.data()})); rebuild(); }, () => {}));
     F.onSnapshot(F.doc(db,'app_config','main'), s => { if (s.exists()) S.config = s.data(); rebuild(); }, () => {});
+    F.onSnapshot(F.doc(db,'app_config','landing'), s => { S.landing = s.exists() ? s.data() : null; rebuild(); }, () => {});
     F.onSnapshot(F.doc(db,'workspaces','main'), s => { S.ws = s.exists() ? s.data() : null; rebuild(); }, () => {});
     F.onAuthStateChanged(au, async u => { if (u && !currentUser) { const s = await F.getDoc(F.doc(db,'admins',u.uid)); if (s.exists()) startSession({id:s.id, ...s.data(), kind:'admin'}); } });
   }
@@ -1618,6 +1637,22 @@ window.saveWorkspaceDocument = safe(async () => {
   if (!S.ws) Object.assign(d, {ownerId:currentUser.id, collaborators:[{userId:currentUser.id, nama:currentUser.nama, role:'Pemilik (Owner)'}]});
   await saveWs(d); showToast('Dokumen berhasil disimpan ke cloud database MGMP!');
 });
+window.saveLanding = safe(async () => {
+  if (!isAdm() || currentUser.role !== 'Super Admin') return showToast('Hanya Super Admin yang dapat mengubah tampilan.');
+  const d = {}; Object.entries(LS).forEach(([id, key]) => { d[key] = $(id).value.trim(); });
+  if (!d.judul1 || !d.deskripsi) return showToast('Judul dan deskripsi halaman utama wajib diisi.');
+  if (IS_PREVIEW) { S.landing = d; rebuild(); } else await F.setDoc(F.doc(db,'app_config','landing'), d);
+  showToast('Tampilan halaman utama berhasil disimpan!');
+});
+window.resetLanding = safe(async () => {
+  if (!confirm('Kembalikan seluruh isi halaman utama ke teks bawaan?')) return;
+  if (IS_PREVIEW) { S.landing = null; rebuild(); } else await F.setDoc(F.doc(db,'app_config','landing'), {...LP_DEF});
+  Object.entries(LS).forEach(([id, key]) => { $(id).value = LP_DEF[key]; }); showToast('Tampilan dikembalikan ke bawaan.');
+});
+window.landNav = (e, id) => {
+  e.preventDefault(); const t = $(id); if (id === 'beranda') window.scrollTo({top:0, behavior:'smooth'}); else t?.scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('#landingWrapper a[data-ln]').forEach(a => { const on = a.dataset.ln === id; a.classList.toggle('bg-teal-50', on); a.classList.toggle('text-teal-700', on); a.classList.toggle('font-bold', on); });
+};
 boot();
 
   </script>
